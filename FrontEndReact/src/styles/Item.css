@@ -1,0 +1,40 @@
+.prop{
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    
+}
+.trow:nth-child(even) {
+    background-color: #5f6745;
+}
+
+.item {
+    background-color: var(--mainWhite);
+    line-height: 1.5rem;
+    padding: 10px 20px;
+    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    transition: all 0.3s linear;
+    
+  }
+.table{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+.clear-btn,
+.edit-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  outline: none;
+  cursor: pointer;
+}
+.clear-btn {
+  color: var(--mainRed);
+}
+.edit-btn {
+  color: var(--mainGreen);
+}

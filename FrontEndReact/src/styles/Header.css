@@ -1,0 +1,11 @@
+.header-style{
+    font-size: 15;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-overflow: ellipsis;
+    background-color: #093824;
+    width: 100%;
+    height: 3%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

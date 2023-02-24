@@ -1,0 +1,43 @@
+  .add-form-container{
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .add-form{
+    margin-top: 10%;
+    display: flex;
+    flex-direction: column;
+    background-color: #BF4E30;
+    padding: 2.5rem;
+    border-radius: 15px;
+    align-items: center;
+  }
+  .form-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .first-row, .second-row{
+    display: flex;
+    flex-direction: column;
+  }
+  .add-form-container > .add-form > .form-container > .first-row > input, .second-row > input{
+    margin: 0.5rem 0.5rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 10px;
+
+  }
+  .add-form-container > .add-form > button{
+    border: none;
+    background-color: #E5EAFA;
+    padding: 0.5rem;
+    border-radius: 10px;
+
+  
+  }
+  .add-form-container > .add-form > label{
+    text-align: center;
+  }
