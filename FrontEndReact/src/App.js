@@ -5,7 +5,7 @@ import { Header } from "./components/Header";
 import { MainPanel } from "./components/MainPanel";
 import { AddForm } from "./components/AddForm";
 import { Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import uuid from "uuid/v4";
 
 const initilaMembers = [
@@ -36,6 +36,9 @@ const initilaMembers = [
 ];
 
 function App() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [members, SetMembers] = useState(initilaMembers);
   // handelDeleate
   const handleDelete = (id) => {

@@ -1,4 +1,5 @@
 using BackEnd.Data;
+using BackEnd.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,10 @@ builder.Services.AddDbContext<IzboriDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaulConectionString"));
 });
+
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 
 var app = builder.Build();
 
