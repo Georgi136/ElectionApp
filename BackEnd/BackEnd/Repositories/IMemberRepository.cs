@@ -8,6 +8,7 @@ namespace BackEnd.Repositories
         Task<Member> GetAsync(int id);
         Task<Member> AddAsync(Member member);
         Task<Member> DeleteAsync(int id);
+        Task<Member> UpdateAsync(int id, Member member);
 
     }
 }

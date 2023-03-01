@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using BackEnd.Data.DTO;
 using BackEnd.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -81,5 +82,36 @@ namespace BackEnd.Controllers
             };
             return Ok(memberDTO);
         }
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateMemberAsync([FromRoute] int id,[FromBody] Data.DTO.AddMemberRequest addMemberRequest)
+        {
+            var member = new Data.Models.Member()
+            {
+                FirstName = addMemberRequest.FirstName,
+                SecondName = addMemberRequest.SecondName,
+                ThirdName = addMemberRequest.ThirdName,
+                Egn = addMemberRequest.Egn,
+                Education = addMemberRequest.Education,
+                PhoneNumber = addMemberRequest.PhoneNumber
+            };
+
+            member = await memberRepository.UpdateAsync(id, member);
+
+            if (member == null)
+                return NotFound();
+            var memberDTO = new Data.DTO.Member()
+            {
+                Id = member.Id,
+                FirstName = member.FirstName,
+                SecondName = member.SecondName,
+                ThirdName = member.ThirdName,
+                Egn = member.Egn,
+                Education = member.Education,
+                PhoneNumber = member.PhoneNumber
+            };
+
+            return Ok(memberDTO);
+        }       
     }
 }

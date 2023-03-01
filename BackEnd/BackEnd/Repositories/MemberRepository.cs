@@ -50,7 +50,7 @@ namespace BackEnd.Repositories
                 return null;
             }
 
-            existingMember.Id = member.Id;
+            
             existingMember.FirstName = member.FirstName;
             existingMember.SecondName = member.SecondName;
             existingMember.ThirdName = member.ThirdName;
@@ -59,6 +59,7 @@ namespace BackEnd.Repositories
             existingMember.PhoneNumber = member.PhoneNumber;
 
             await izboriDbContext.SaveChangesAsync();
+
             return existingMember;
         }
     }
