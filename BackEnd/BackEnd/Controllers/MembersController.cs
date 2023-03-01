@@ -62,5 +62,24 @@ namespace BackEnd.Controllers
             };
             return CreatedAtAction(nameof(GetMemberAsync), new { id = memberDTO.Id }, memberDTO);
         }
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleateMemberAsync(int id)
+        {
+            var member = await memberRepository.DeleteAsync(id);
+            if ( member == null)
+                return NotFound();
+            var memberDTO = new Data.DTO.Member()
+            {
+                Id = member.Id,
+                FirstName = member.FirstName,
+                SecondName = member.SecondName,
+                ThirdName = member.ThirdName,
+                Egn = member.Egn,
+                Education = member.Education,
+                PhoneNumber = member.PhoneNumber
+            };
+            return Ok(memberDTO);
+        }
     }
 }

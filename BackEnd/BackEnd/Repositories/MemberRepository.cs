@@ -28,5 +28,38 @@ namespace BackEnd.Repositories
             await izboriDbContext.SaveChangesAsync();
             return member;
         }
+
+        public async Task<Member> DeleteAsync(int id)
+        {
+            var member = await izboriDbContext.Members.FirstOrDefaultAsync(x => x.Id == id);
+            if (member == null)
+            {
+                return null;
+            }
+
+            izboriDbContext.Members.Remove(member);
+            await izboriDbContext.SaveChangesAsync();
+            return member;
+        }
+
+        public async Task<Member> UpdateAsync(int id, Member member)
+        {
+            var existingMember = await izboriDbContext.Members.FirstOrDefaultAsync(x => x.Id == id);
+            if (existingMember == null)
+            {
+                return null;
+            }
+
+            existingMember.Id = member.Id;
+            existingMember.FirstName = member.FirstName;
+            existingMember.SecondName = member.SecondName;
+            existingMember.ThirdName = member.ThirdName;
+            existingMember.Education = member.Education;
+            existingMember.Egn = member.Egn;
+            existingMember.PhoneNumber = member.PhoneNumber;
+
+            await izboriDbContext.SaveChangesAsync();
+            return existingMember;
+        }
     }
 }
