@@ -7,7 +7,7 @@ namespace BackEnd.Profiles
     {
         public MemberProfile()
         {
-            CreateMap<Data.Models.Member, Data.DTO.Member>()
+            CreateMap<Data.Models.Member, Data.DTO.MemberDTO>()
                 .ReverseMap();
         }
     }

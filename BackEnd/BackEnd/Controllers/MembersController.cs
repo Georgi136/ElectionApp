@@ -2,6 +2,7 @@
 using AutoMapper;
 using BackEnd.Data.DTO;
 using BackEnd.Repositories;
+using BackEnd.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers
@@ -13,54 +14,43 @@ namespace BackEnd.Controllers
     {
         private readonly IMemberRepository memberRepository;
         private readonly IMapper mapper;
+        private readonly IMemberService memberService;
 
-        public MembersController(IMemberRepository memberRepository, IMapper mapper)
+
+        public MembersController(IMemberService memberService, IMemberRepository memberRepository, IMapper mapper)
         {
             this.memberRepository = memberRepository;
+            this.memberService = memberService;
             this.mapper = mapper;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllMembers()
         {
-            var members = await memberRepository.GetAllAsync();
-            if (members == null)
+            
+            var membersDTO = await memberService.GetAllMembers();
+            if(membersDTO == null)
                 return NotFound();
-            var regionsDTO = mapper.Map<List<Data.DTO.Member>>(members);
-            return Ok(regionsDTO);
+            return Ok(membersDTO);
         }
         [HttpGet]
         [Route("{id}")]
         [ActionName("GetMemberAsync")]
         public async Task<IActionResult> GetMemberAsync(int id)
         { 
-            var member = await memberRepository.GetAsync(id);
-            var memberDTO = mapper.Map<Data.DTO.Member>(member);
+            var memberDTO = await memberService.GetMember(id);
+                if(memberDTO == null)
+                    return NotFound(id);
             return Ok(memberDTO);
         }
         [HttpPost]
-        public async Task<IActionResult> AddMemberAsync(Data.DTO.AddMemberRequest addMemberRequest)
+        public async Task<IActionResult> AddMemberAsync(AddMemberRequest addMemberRequest)
         {
-            var member = new Data.Models.Member()
-            {
-                FirstName = addMemberRequest.FirstName,
-                SecondName = addMemberRequest.SecondName,
-                ThirdName = addMemberRequest.ThirdName,
-                Egn = addMemberRequest.Egn,
-                Education = addMemberRequest.Education,
-                PhoneNumber = addMemberRequest.PhoneNumber
-            };
-            member = await memberRepository.AddAsync(member);
+            var member = memberService.ConvertToModelMember(addMemberRequest);
 
-            var memberDTO = new Data.DTO.Member()
-            {
-                Id = member.Id,
-                FirstName = member.FirstName,
-                SecondName = member.SecondName,
-                ThirdName = member.ThirdName,
-                Egn = member.Egn,
-                Education = member.Education,
-                PhoneNumber = member.PhoneNumber
-            };
+            member = await memberService.AddMember(member);
+
+            var memberDTO = memberService.ConvertToDTOMember(member); 
+
             return CreatedAtAction(nameof(GetMemberAsync), new { id = memberDTO.Id }, memberDTO);
         }
         [HttpDelete]
@@ -70,16 +60,7 @@ namespace BackEnd.Controllers
             var member = await memberRepository.DeleteAsync(id);
             if ( member == null)
                 return NotFound();
-            var memberDTO = new Data.DTO.Member()
-            {
-                Id = member.Id,
-                FirstName = member.FirstName,
-                SecondName = member.SecondName,
-                ThirdName = member.ThirdName,
-                Egn = member.Egn,
-                Education = member.Education,
-                PhoneNumber = member.PhoneNumber
-            };
+            var memberDTO = memberService.ConvertToDTOMember(member);
             return Ok(memberDTO);
         }
         [HttpPut]
@@ -100,7 +81,7 @@ namespace BackEnd.Controllers
 
             if (member == null)
                 return NotFound();
-            var memberDTO = new Data.DTO.Member()
+            var memberDTO = new Data.DTO.MemberDTO()
             {
                 Id = member.Id,
                 FirstName = member.FirstName,

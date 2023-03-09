@@ -1,7 +1,10 @@
-﻿namespace BackEnd.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BackEnd.Data.Models
 {
     public class Member
     {
+        [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }

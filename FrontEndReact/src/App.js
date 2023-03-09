@@ -4,50 +4,42 @@ import { Login } from "./components/Login";
 import { Header } from "./components/Header";
 import { MainPanel } from "./components/MainPanel";
 import { AddForm } from "./components/AddForm";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import uuid from "uuid/v4";
 
-const initilaMembers = [
-  {
-    id: uuid(),
-    name: "test",
-    secondName: "test",
-    lastName: "Tste1",
-    EGN: "0145134844",
-    tel: "0896658248",
-  },
-  {
-    id: uuid(),
-    name: "tesdsdfs,mst",
-    secondName: "test,ms.,vnsd.",
-    lastName: "Tstdddde1",
-    EGN: "0145134844",
-    tel: "0896658248",
-  },
-  {
-    id: uuid(),
-    name: "sdsdfs,mst",
-    secondName: "test,ms.,vnsd.",
-    lastName: "tdddde1",
-    EGN: "0145134844",
-    tel: "0896658248",
-  },
-];
+const initilaMembers = [];
 
 function App() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [members, SetMembers] = useState(initilaMembers);
   // handelDeleate
-  const handleDelete = (id) => {
-    let tempMembers = members.filter((m) => m.id !== id);
-    SetMembers(tempMembers);
+  const handleDelete = async (id) => {
+    await fetch(`https://localhost:7131/Members/${id}`, {
+      method: "DELETE",
+    })
+      .then((respones) => respones.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
   const handleEdit = (id) => {
     console.log("edited");
   };
+
+  const getMembers = async () => {
+    const response = await fetch("https://localhost:7131/Members");
+    return response.json();
+  };
+
+  useEffect(() => {
+    // createMember().then((r) => r.status);
+    getMembers().then((r) => console.log(r));
+    getMembers().then((r) => SetMembers(r));
+  }, [members]);
+
   return (
     <div className="App">
       <Routes>
@@ -74,6 +66,7 @@ function App() {
             </>
           }
         ></Route>
+        <Route path="/" element={<Navigate to="/home" />}></Route>
       </Routes>
     </div>
   );

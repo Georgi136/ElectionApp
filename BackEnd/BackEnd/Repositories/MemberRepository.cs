@@ -22,7 +22,7 @@ namespace BackEnd.Repositories
             return await izboriDbContext.Members.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<Member> AddAsync(Member member)
-        { 
+        {
             member.Id = new int();
             await izboriDbContext.Members.AddAsync(member);
             await izboriDbContext.SaveChangesAsync();

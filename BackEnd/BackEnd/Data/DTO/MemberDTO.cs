@@ -1,6 +1,6 @@
 ﻿namespace BackEnd.Data.DTO
 {
-    public class Member
+    public class MemberDTO
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

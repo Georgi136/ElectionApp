@@ -1,28 +1,37 @@
 import React, { useState } from "react";
-import uuid from "uuid/v4";
 import "../styles/AddForm.css";
 export const AddForm = ({ SetMembers, members }) => {
-  const [name, setName] = useState("");
+  const [firstName, setName] = useState("");
   const [secondName, setSecondName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [EGN, setEGN] = useState("");
-  const [tel, setTel] = useState("");
+  const [thirdName, setLastName] = useState("");
+  const [egn, setEGN] = useState("");
+  const [phoneNumber, setTel] = useState("");
   // const [pass, setPass] = useState('');
 
-  const HandleSubmit = (e) => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
     const formObject = {
-      id: uuid(),
-      name,
+      firstName,
       secondName,
-      lastName,
-      EGN,
-      tel,
+      thirdName,
+      egn,
+      education: "sredno",
+      phoneNumber,
     };
-    console.log(formObject);
-    console.log(members);
-    console.log(formObject);
-    SetMembers([...members, formObject]);
+    await fetch("https://localhost:7131/Members", {
+      method: "POST",
+      body: JSON.stringify(formObject),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    })
+      .then((respones) => respones.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (
@@ -33,7 +42,7 @@ export const AddForm = ({ SetMembers, members }) => {
           <div className="first-row">
             <label for="name">Име</label>
             <input
-              value={name}
+              value={firstName}
               onChange={(e) => setName(e.target.value)}
               type="text"
               placeholder="Име"
@@ -47,7 +56,7 @@ export const AddForm = ({ SetMembers, members }) => {
             />
             <label for="name3">Фамилия</label>
             <input
-              value={lastName}
+              value={thirdName}
               onChange={(e) => setLastName(e.target.value)}
               type="text"
               placeholder="Фамилия"
@@ -56,14 +65,14 @@ export const AddForm = ({ SetMembers, members }) => {
           <div className="second-row">
             <label for="EGN">ЕГН</label>
             <input
-              value={EGN}
+              value={egn}
               onChange={(e) => setEGN(e.target.value)}
               type="text"
               placeholder="ЕГН"
             />
             <label for="Tel">Телефон</label>
             <input
-              value={tel}
+              value={phoneNumber}
               onChange={(e) => setTel(e.target.value)}
               type="text"
               placeholder="Телефон"
